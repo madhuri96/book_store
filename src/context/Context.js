@@ -1,12 +1,12 @@
-import React, { createContext, useReducer, useEffect } from "react";
-import books from "../data/books.json";
-import reducer from "./Reducer";
+import React, { createContext, useReducer, useEffect } from 'react';
+import books from '../data/books.json';
+import reducer from './Reducer';
 
 const initialState = {
   books: books,
   searchString: null,
   searchedBooks: [],
-  carts: []
+  carts: [],
 };
 
 export const Context = createContext(initialState);
@@ -14,63 +14,63 @@ export const Context = createContext(initialState);
 export const Provider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   useEffect(() => {
-    if (localStorage.getItem("carts") !== null) {
-      const fetchedCarts = JSON.parse(localStorage.getItem("carts"));
+    if (localStorage.getItem('carts') !== null) {
+      const fetchedCarts = JSON.parse(localStorage.getItem('carts'));
       fetchCarts(fetchedCarts);
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("carts", JSON.stringify(state.carts));
+    localStorage.setItem('carts', JSON.stringify(state.carts));
   }, [state.carts]);
 
   //actions
-  const fetchCarts = fetchedCarts => {
+  const fetchCarts = (fetchedCarts) => {
     dispatch({
-      type: "FETCH_CART",
-      payload: fetchedCarts
+      type: 'FETCH_CART',
+      payload: fetchedCarts,
     });
   };
 
-  const addCart = id => {
+  const addCart = (id) => {
     dispatch({
-      type: "ADD_CART",
-      payload: id
+      type: 'ADD_CART',
+      payload: id,
     });
   };
 
   const updateCart = (id, quantity) => {
     dispatch({
-      type: "UPDATE_CART",
-      payload: { id, quantity }
+      type: 'UPDATE_CART',
+      payload: { id, quantity },
     });
   };
 
-  const removeCart = id => {
+  const removeCart = (id) => {
     dispatch({
-      type: "REMOVE_CART",
-      payload: id
+      type: 'REMOVE_CART',
+      payload: id,
     });
   };
 
-  const getSearchString = searchString => {
+  const getSearchString = (searchString) => {
     dispatch({
-      type: "GET_SEARCHED_STRING",
-      payload: searchString
+      type: 'GET_SEARCHED_STRING',
+      payload: searchString,
     });
   };
 
-  const getSearchedBooks = searchString => {
+  const getSearchedBooks = (searchString) => {
     getSearchString(searchString);
     dispatch({
-      type: "GET_SEARCHED_BOOKS",
-      payload: searchString
+      type: 'GET_SEARCHED_BOOKS',
+      payload: searchString,
     });
   };
 
   const clearSearch = () => {
     dispatch({
-      type: "CLEAR_SEARCH"
+      type: 'CLEAR_SEARCH',
     });
   };
 
@@ -87,7 +87,7 @@ export const Provider = ({ children }) => {
         getSearchString,
         getSearchedBooks,
         clearSearch,
-        fetchCarts
+        fetchCarts,
       }}
     >
       {children}
